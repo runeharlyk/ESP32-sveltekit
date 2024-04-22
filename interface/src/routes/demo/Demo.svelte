@@ -14,6 +14,8 @@
 	let lightState: LightState = { led_on: false };
 
 	let lightOn = false;
+		
+	let updateStill = 0 
 
 	async function getLightstate() {
 		try {
@@ -62,11 +64,21 @@
 			console.error('Error:', error);
 		}
 	}
+
+	const takeStill = () => {
+		updateStill += 1;
+	}
 </script>
 
 <SettingsCard collapsible={false}>
 	<Light slot="icon" class="lex-shrink-0 mr-2 h-6 w-6 self-end" />
 	<span slot="title">Light State</span>
+	<img src={"/rest/camera/stream"+ ws_token} alt="stream" class="w-full rounded-lg shadow-lg" />
+	<!-- <img src={"/rest/camera/still"+ ws_token + "&key=" + updateStill} alt="Camera" class="w-full rounded-lg shadow-lg" /> -->
+	<button class="btn btn-primary inline-flex items-center" on:click={takeStill}>
+		<Reload class="mr-2 h-5 w-5" />
+		<span>Reload</span>
+	</button>
 	<div class="w-full">
 		<h1 class="text-xl font-semibold">REST Example</h1>
 		<div class="alert alert-info my-2 shadow-lg">

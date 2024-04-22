@@ -12,6 +12,8 @@
  *   the terms of the LGPL v3 license. See the LICENSE file for details.
  **/
 
+#define CAMERA_MODEL_AI_THINKER
+
 #include <ESP32SvelteKit.h>
 #include <LightMqttSettingsService.h>
 #include <LightStateService.h>

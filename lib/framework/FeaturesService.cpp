@@ -72,6 +72,11 @@ void FeaturesService::begin()
                     root["event_use_json"] = false;
 #endif
 
+#if FT_ENABLED(FT_CAMERA)
+                    root["camera"] = true;
+#else
+                    root["camera"] = false;
+#endif
                     root["firmware_version"] = APP_VERSION;
                     root["firmware_name"] = APP_NAME;
                     root["firmware_built_target"] = BUILD_TARGET;

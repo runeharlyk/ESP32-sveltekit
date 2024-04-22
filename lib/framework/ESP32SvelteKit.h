@@ -17,32 +17,34 @@
 
 #include <Arduino.h>
 
-#include <WiFi.h>
-#include <ESPmDNS.h>
-#include <AnalyticsService.h>
-#include <FeaturesService.h>
 #include <APSettingsService.h>
 #include <APStatus.h>
+#include <AnalyticsService.h>
 #include <AuthenticationService.h>
 #include <BatteryService.h>
-#include <FactoryResetService.h>
+#include <CameraService.h>
 #include <DownloadFirmwareService.h>
+#include <ESPFS.h>
+#include <ESPmDNS.h>
+#include <FactoryResetService.h>
+#include <FeaturesService.h>
 #include <EventSocket.h>
 #include <MqttSettingsService.h>
 #include <MqttStatus.h>
 #include <NotificationService.h>
 #include <NTPSettingsService.h>
 #include <NTPStatus.h>
-#include <UploadFirmwareService.h>
+#include <NotificationEvents.h>
+#include <PsychicHttp.h>
 #include <RestartService.h>
 #include <SecuritySettingsService.h>
 #include <SleepService.h>
 #include <SystemStatus.h>
+#include <UploadFirmwareService.h>
+#include <WiFi.h>
 #include <WiFiScanner.h>
 #include <WiFiSettingsService.h>
 #include <WiFiStatus.h>
-#include <ESPFS.h>
-#include <PsychicHttp.h>
 
 #ifdef EMBED_WWW
 #include <WWWData.h>
@@ -146,6 +148,13 @@ public:
     }
 #endif
 
+#if FT_ENABLED(FT_CAMERA)
+    CameraService *getCameraService()
+    {
+        return &_cameraService;
+    }
+#endif
+
     FeaturesService *getFeatureService()
     {
         return &_featureService;
@@ -200,6 +209,9 @@ private:
 #endif
 #if FT_ENABLED(FT_BATTERY)
     BatteryService _batteryService;
+#endif
+#if FT_ENABLED(FT_CAMERA)
+    CameraService _cameraService;
 #endif
 #if FT_ENABLED(FT_ANALYTICS)
     AnalyticsService _analyticsService;

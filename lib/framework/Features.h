@@ -62,4 +62,9 @@
 #define EVENT_USE_JSON 0
 #endif
 
+// ESP32 camera off by default
+#ifndef FT_CAMERA
+#define FT_CAMERA 0
+#endif
+
 #endif

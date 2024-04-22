@@ -43,8 +43,9 @@ PsychicEventSourceClient * PsychicEventSource::getClient(int socket)
   return (PsychicEventSourceClient *)client->_friend;
 }
 
-PsychicEventSourceClient * PsychicEventSource::getClient(PsychicClient *client) {
-  return getClient(client->socket());
+PsychicEventSourceClient *PsychicEventSource::getClient(PsychicClient *client)
+{
+    return getClient(client->socket());
 }
 
 esp_err_t PsychicEventSource::handleRequest(PsychicRequest *request)
@@ -185,10 +186,7 @@ esp_err_t PsychicEventSourceResponse::send() {
   if (result < 0)
     ESP_LOGE(PH_TAG, "EventSource send failed with %s", esp_err_to_name(result));
 
-  if (result > 0)
-    return ESP_OK;
-  else
-    return ESP_ERR_HTTPD_RESP_SEND;
+  return (result > 0) ? ESP_OK : ESP_ERR_HTTPD_RESP_SEND;
 }
 
 /*****************************************/

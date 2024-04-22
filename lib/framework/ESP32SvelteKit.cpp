@@ -26,24 +26,23 @@ ESP32SvelteKit::ESP32SvelteKit(PsychicHttpServer *server, unsigned int numberEnd
                                                                                           _socket(server, &_securitySettingsService, AuthenticationPredicates::IS_AUTHENTICATED),
                                                                                           _notificationService(&_socket),
 #if FT_ENABLED(FT_NTP)
-                                                                                          _ntpSettingsService(server, &ESPFS, &_securitySettingsService),
-                                                                                          _ntpStatus(server, &_securitySettingsService),
+      _ntpSettingsService(server, &ESPFS, &_securitySettingsService), _ntpStatus(server, &_securitySettingsService),
 #endif
 #if FT_ENABLED(FT_UPLOAD_FIRMWARE)
-                                                                                          _uploadFirmwareService(server, &_securitySettingsService),
+      _uploadFirmwareService(server, &_securitySettingsService),
 #endif
 #if FT_ENABLED(FT_DOWNLOAD_FIRMWARE)
                                                                                           _downloadFirmwareService(server, &_securitySettingsService, &_socket),
 #endif
 #if FT_ENABLED(FT_MQTT)
-                                                                                          _mqttSettingsService(server, &ESPFS, &_securitySettingsService),
-                                                                                          _mqttStatus(server, &_mqttSettingsService, &_securitySettingsService),
+      _mqttSettingsService(server, &ESPFS, &_securitySettingsService),
+      _mqttStatus(server, &_mqttSettingsService, &_securitySettingsService),
 #endif
 #if FT_ENABLED(FT_SECURITY)
-                                                                                          _authenticationService(server, &_securitySettingsService),
+      _authenticationService(server, &_securitySettingsService),
 #endif
 #if FT_ENABLED(FT_SLEEP)
-                                                                                          _sleepService(server, &_securitySettingsService),
+      _sleepService(server, &_securitySettingsService),
 #endif
 #if FT_ENABLED(FT_BATTERY)
                                                                                           _batteryService(&_socket),
@@ -51,9 +50,11 @@ ESP32SvelteKit::ESP32SvelteKit(PsychicHttpServer *server, unsigned int numberEnd
 #if FT_ENABLED(FT_ANALYTICS)
                                                                                           _analyticsService(&_socket),
 #endif
-                                                                                          _restartService(server, &_securitySettingsService),
-                                                                                          _factoryResetService(server, &ESPFS, &_securitySettingsService),
-                                                                                          _systemStatus(server, &_securitySettingsService)
+#if FT_ENABLED(FT_CAMERA)
+      _cameraService(server, &_securitySettingsService),
+#endif
+      _restartService(server, &_securitySettingsService),
+      _factoryResetService(server, &ESPFS, &_securitySettingsService), _systemStatus(server, &_securitySettingsService)
 {
 }
 
@@ -168,6 +169,9 @@ void ESP32SvelteKit::begin()
 #endif
 #if FT_ENABLED(FT_ANALYTICS)
     _analyticsService.begin();
+#endif
+#if FT_ENABLED(FT_CAMERA)
+    _cameraService.begin();
 #endif
 #if FT_ENABLED(FT_SLEEP)
     _sleepService.begin();
