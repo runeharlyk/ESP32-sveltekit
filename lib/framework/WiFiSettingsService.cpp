@@ -74,12 +74,7 @@ void WiFiSettingsService::loop()
         _lastConnectionAttempt = currentMillis;
         manageSTA();
     }
-
-    if (!_lastRssiUpdate || (unsigned long)(currentMillis - _lastRssiUpdate) >= RSSI_EVENT_DELAY)
-    {
-        _lastRssiUpdate = currentMillis;
-        updateRSSI();
-    }
+    EXECUTE_EVERY_N_MS(RSSI_EVENT_DELAY, updateRSSI());
 }
 
 String WiFiSettingsService::getHostname()
